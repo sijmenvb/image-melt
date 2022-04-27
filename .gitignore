@@ -4,3 +4,8 @@
 .settings/
 images/
 mixedImage.png
+/README.txt
+/template.json
+Exported Images/
+deployment/
+/run.bat
