@@ -19,7 +19,7 @@ public class MetaData {
 
 	public MetaData(File jsonFile) throws Exception {
 		try {
-			JSONObject o = new JSONObject(Files.readString(jsonFile.toPath()));
+			JSONObject o = new JSONObject(new String (Files.readAllBytes(jsonFile.toPath())));
 			
 			//load the image (path)
 			this.image = new File(jsonFile.getPath().replace(".json", ".png"));// make sure the image is in the same folder and a	TODO: this rules out .json in the file name so make more elegant														// .png
