@@ -1,30 +1,35 @@
 package imageMelt;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.LinkedList;
 
+import javax.imageio.ImageIO;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MetaData {
-	float depth;
-	File image;// path to corresponding image file
-	float weight = 1.0f;
-	LinkedList<String> tags = new LinkedList<String>();
-	LinkedList<String> onlyWithTag = new LinkedList<String>();
-	LinkedList<String> exeptWithTag = new LinkedList<String>();
+public class ImageData {
+	private float depth;
+	private File imagePath;// path to corresponding image file
+	private float weight = 1.0f;
+	private LinkedList<String> tags = new LinkedList<String>();
+	private LinkedList<String> onlyWithTag = new LinkedList<String>();
+	private LinkedList<String> exeptWithTag = new LinkedList<String>();
+	private Image image;
 
-	public MetaData(File jsonFile) throws Exception {
+	public ImageData(File jsonFile) throws Exception {
 		try {
 			JSONObject o = new JSONObject(new String (Files.readAllBytes(jsonFile.toPath())));
 			
 			//load the image (path)
-			this.image = new File(jsonFile.getPath().replace(".json", ".png"));// make sure the image is in the same folder and a	TODO: this rules out .json in the file name so make more elegant														// .png
+			this.imagePath = new File(jsonFile.getPath().replace(".json", ".png"));// make sure the image is in the same folder and a	TODO: this rules out .json in the file name so make more elegant														// .png
 			//check if the image exists.
-			if (!image.exists()) {
+			if (!imagePath.exists()) {
 				System.err.println("!WARNING! no accompanying image to " + jsonFile.toString());
 				throw new Exception("no accompanying image");
 			}
@@ -76,15 +81,42 @@ public class MetaData {
 			e.printStackTrace();
 		}
 	}
-
-	public float getDepth() {
-		return depth;
-	}
-
-	public File getImage() {
+	
+	/** get's the image. if it is not loaded yet it will load it in.
+	 */
+	public Image getImage() {
+		if (image == null) {// if image is not loaded yet
+			try {
+				image = ImageIO.read(imagePath);//load the image.
+			} catch (IOException e) {
+				System.err.println("ERROR LOADING: " + imagePath);
+				e.printStackTrace();
+			}
+		}
 		return image;
 	}
 	
+	
+
+	public LinkedList<String> getTags() {
+		return tags;
+	}
+
+	public LinkedList<String> getOnlyWithTag() {
+		return onlyWithTag;
+	}
+
+	public LinkedList<String> getExeptWithTag() {
+		return exeptWithTag;
+	}
+
+	public File getImagePath() {
+		return imagePath;
+	}
+
+	public float getDepth() {
+		return depth;
+	}	
 	
 
 }

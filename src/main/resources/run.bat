@@ -1,2 +1,2 @@
-java -jar ./ImageMelt-0.0.2.jar
+java -jar ./ImageMelt-0.0.3.jar
 PAUSE
