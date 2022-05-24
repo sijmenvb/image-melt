@@ -15,7 +15,7 @@ public class Main {
 		createFiles();
 		ImageGenerator gen = new ImageGenerator(".\\images");
 		gen.PrintAllPaths();
-		gen.generateImages(".\\Exported Images","mixedImage",10);
+		gen.generateImages(".\\Exported Images","mixedImage",20); //TODO: make amount of images to generate configurable
 		System.out.println("Done! -- tool provided by sijmen_v_b");
 	}
 

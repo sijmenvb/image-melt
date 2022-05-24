@@ -6,6 +6,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class ImageGenerator {
 
@@ -86,14 +89,28 @@ public class ImageGenerator {
 		System.setProperty("sun.java2d.opengl", "True");
 		generateImageSets(folderPath, name, ammount);
 		
+		//make a thread pool
+		ExecutorService pool = Executors.newFixedThreadPool(16);//TODO: make no. threads configurable
+		
+		//add all the jobs to the thread pool.
 		int i = 0;
 		for (ImageSet set : imageSets) {
-			System.out.println("generating " + (i + 1) + "/" + ammount);
-			set.generateImage();
+			pool.execute(new ThreadedImage(set,"generating " + (i + 1) + "/" + ammount));
 			i++;
 		}
-		
+		pool.shutdown();
+		//wait for termination.
+	    try {
+	        if (!pool.awaitTermination(10L, TimeUnit.HOURS)) { //TODO: make timeout configurable
+	        	pool.shutdownNow();
+	        }
+	    } catch (InterruptedException ex) {
+	    	pool.shutdownNow();
+	        Thread.currentThread().interrupt();
+	    }
 	}
+	
+	
 
 	public void generateImageSets(String folderPath, String name, int ammount) {
 		for (int i = 0; i < ammount; i++) {
@@ -113,7 +130,7 @@ public class ImageGenerator {
 		for (ArrayList<ImageData> fullDepthList : depthsData) {// loop over the depths.
 			ArrayList<ImageData> depthList = filterImageData(fullDepthList, set.getTags());//filter images.
 			
-			if (depthList.size() <= 0) {
+			if (depthList.size() <= 0) {//TODO: regenerate image up to n times if it filters out a section.
 				System.out.println("warning filtered out all images at depth: " + fullDepthList.get(0).getDepth());
 				continue;
 			}
