@@ -13,9 +13,12 @@ public class Main {
 
 		LoadInputFolder();
 		createFiles();
-		ImageGenerator gen = new ImageGenerator(".\\images");
+		
+		ReadConfig config = new ReadConfig();
+		
+		ImageGenerator gen = new ImageGenerator(".\\images",config);
 		gen.PrintAllPaths();
-		gen.generateImages(".\\Exported Images","mixedImage",20); //TODO: make amount of images to generate configurable
+		gen.generateImages(".\\Exported Images","mixedImage",config.getNumberOfImages());
 		System.out.println("Done! -- tool provided by sijmen_v_b");
 	}
 

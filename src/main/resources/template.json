@@ -1,3 +1,14 @@
 {
-    "depth": 1.0
+    "depth": 1.0,
+    "tags": [
+        "white",
+        "human ear"
+    ],
+    "onlyWithTag": [
+        "white"
+    ],
+    "exeptWithTag": [
+        "brown"
+    ],
+    "weight": 1.0
 }

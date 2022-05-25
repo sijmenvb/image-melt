@@ -5,8 +5,8 @@ package imageMelt;
  */
 public class ThreadedImage implements Runnable {
 	
-	ImageSet image;
-	String message;
+	private ImageSet image;
+	private String message;
 	
 
 	/**

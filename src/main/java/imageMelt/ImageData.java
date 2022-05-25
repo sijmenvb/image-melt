@@ -98,6 +98,10 @@ public class ImageData {
 	
 	
 
+	public float getWeight() {
+		return weight;
+	}
+
 	public LinkedList<String> getTags() {
 		return tags;
 	}
