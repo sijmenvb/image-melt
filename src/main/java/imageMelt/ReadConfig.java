@@ -10,9 +10,11 @@ import java.nio.file.StandardCopyOption;
 import java.util.Properties;
 
 public class ReadConfig {
+	private String name;
 	private int numberOfImages;
 	private int numberOfThreads;
 	private long timeoutInHours;
+	private int leadingZeros;
 
 	public ReadConfig() {
 		createRun();
@@ -41,11 +43,11 @@ public class ReadConfig {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		name = getStringFromConfig("name", prop, propBackup);
 		numberOfImages = getIntFromConfig("numberOfImages", prop, propBackup);
 		numberOfThreads = getIntFromConfig("threads", prop, propBackup);
 		timeoutInHours = getLongFromConfig("timeoutInHours", prop, propBackup);
-
+		leadingZeros = getIntFromConfig("leadingZeros", prop, propBackup);
 	}
 
 	private String getStringFromConfig(String key, Properties prop, Properties propBackup) {
@@ -76,7 +78,7 @@ public class ReadConfig {
 
 		return a;
 	}
-	
+
 	private long getLongFromConfig(String key, Properties prop, Properties propBackup) {
 		long a;
 		try {
@@ -139,6 +141,10 @@ public class ReadConfig {
 
 	}
 
+	public String getName() {
+		return name;
+	}
+
 	public int getNumberOfImages() {
 		return numberOfImages;
 	}
@@ -151,5 +157,14 @@ public class ReadConfig {
 		return timeoutInHours;
 	}
 
+	public int getLeadingZeros() {
+		//needs to be at least 1
+		if (leadingZeros < 1) {
+			return 1;
+		}
+		return leadingZeros;
+	}
+	
+	
 
 }

@@ -119,7 +119,7 @@ public class ImageGenerator {
 	public void generateImageSets(String folderPath, String name, int ammount) {
 		for (int i = 0; i < ammount; i++) {
 			System.out.println("composing " + (i + 1) + "/" + ammount);
-			generateImageSet(String.format("%s\\%s%04d.png", folderPath, name, i));
+			generateImageSet(String.format("%s\\%s%0"+config.getLeadingZeros()+"d.png", folderPath, name, i));
 		}
 	}
 
